@@ -1,0 +1,17 @@
+package rules.jfusion.log.rules
+
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.Level;
+import com.sinux.modules.audit.utils.AuditUtils;
+
+rule "logrule"
+    when
+        message:ILoggingEvent()
+    then
+        if(message.getLevel() == Level.ERROR){
+             StackTraceElement[] callers = message.getCallerData();
+             if(callers !=null && callers.length > 0){
+                  AuditUtils.saveAudit("运行错误",callers[0].getClassName(),callers[0].getMethodName(),message.getFormattedMessage(),0);
+             }
+        }
+end

@@ -1,0 +1,18 @@
+package rules.jfusion.data.permission
+ 
+import com.sinux.core.persistence.drools.DroolUser;
+import com.sinux.core.persistence.drools.PermissionSet;
+import com.sinux.core.persistence.drools.ResultSet
+import java.util.List;
+
+rule "demo"
+    when
+        $user : DroolUser()
+        $perms : PermissionSet()
+        $results : ResultSet()
+    then
+        List list = (List)$results.getResult();
+        for (Object o : list) {
+           System.out.println(o);
+        }
+end
